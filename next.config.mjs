@@ -1,0 +1,40 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: false,
+  swcMinify: true,
+  compiler: {
+    removeConsole: false,
+  },
+  env: {
+    BASE_API_URL: process.env.NODE_ENV === "development" ? "http://localhost:3030" : "https://api.crypto-trading.com",
+    WEBSITE_URL: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://crypto-trading.com",
+    adminTokenNameInLocalStorage: "s-s-a-t",
+    adminDashboardlanguageFieldNameInLocalStorage: "crypto-trading-admin-dashboard-language",
+    defaultLanguage: "ar"
+  },
+  async headers() {
+    return [
+      {
+        source: process.env.NODE_ENV === "development" ? "//localhost:3030/(.*)" : "//api.crypto-trading.com/(.*)",
+        headers: [
+          { key: "Access-Control-Allow-Credentials", value: "true" },
+          {
+            key: "Access-Control-Allow-Origin",
+            value: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://crypto-trading.com",
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET,OPTIONS,PATCH,DELETE,POST,PUT",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value:
+              "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+          },
+        ]
+      }
+    ];
+  }
+}
+
+export default nextConfig;
