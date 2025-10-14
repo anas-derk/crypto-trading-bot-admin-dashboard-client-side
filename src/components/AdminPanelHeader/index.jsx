@@ -33,10 +33,8 @@ export default function AdminPanelHeader({ isWebsiteOwner = false, isMerchant = 
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav>
                             <NavDropdown title={t("Trades")} id="trades-nav-dropdown">
-                                <NavDropdown.Item href="/trades-managment/add-new-trade" as={Link}>{t("Add New")}</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item href="/trades-managment/update-and-delete-trades" as={Link}>
-                                    {t("Update / Delete")}
+                                <NavDropdown.Item href="/trades-managment" as={Link}>
+                                    {t("All Trades")}
                                 </NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title={t("Languages")} id="languages-nav-dropdown">
