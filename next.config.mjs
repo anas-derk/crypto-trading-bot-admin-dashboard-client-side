@@ -10,7 +10,8 @@ const nextConfig = {
     WEBSITE_URL: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://crypto-trading.com",
     adminTokenNameInLocalStorage: "s-s-a-t",
     adminDashboardlanguageFieldNameInLocalStorage: "crypto-trading-admin-dashboard-language",
-    defaultLanguage: "ar"
+    defaultLanguage: "ar",
+    WEBSITE_NAME: "Crypto Trading Bot"
   },
   async headers() {
     return [

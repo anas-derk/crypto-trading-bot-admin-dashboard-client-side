@@ -20,10 +20,10 @@ export default function Home() {
 
   const { t, i18n } = useTranslation();
 
-  // useEffect(() => {
-  //   const userLanguage = localStorage.getItem(process.env.adminDashboardlanguageFieldNameInLocalStorage);
-  //   handleSelectUserLanguage(userLanguage === "ar" || userLanguage === "en" || userLanguage === "tr" || userLanguage === "de" ? userLanguage : process.env.defaultLanguage, i18n.changeLanguage);
-  // }, []);
+  useEffect(() => {
+    const userLanguage = localStorage.getItem(process.env.adminDashboardlanguageFieldNameInLocalStorage);
+    handleSelectUserLanguage(userLanguage === "ar" || userLanguage === "en" || userLanguage === "tr" || userLanguage === "de" ? userLanguage : process.env.defaultLanguage, i18n.changeLanguage);
+  }, []);
 
   useEffect(() => {
     const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
@@ -54,7 +54,7 @@ export default function Home() {
   return (
     <div className="main admin-dashboard">
       <Head>
-        <title>{t("Crypto Trading Bot")} - {t("Admin Dashboard")}</title>
+        <title>{t(process.env.WEBSITE_NAME)} - {t("Admin Dashboard")}</title>
       </Head>
       {!isLoadingPage && !errorMsgOnLoadingThePage && <>
         <AdminPanelHeader isWebsiteOwner={adminInfo.isWebsiteOwner} isMerchant={adminInfo.isMerchant} />
