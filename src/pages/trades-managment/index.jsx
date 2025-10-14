@@ -326,6 +326,7 @@ export default function TradesManagment() {
                                         <th>{t("Id")}</th>
                                         <th>{t("Side")}</th>
                                         <th>{t("Pair")}</th>
+                                        <th>{t("Status")}</th>
                                         <th>{t("Amount")}</th>
                                         <th>{t("Price")}</th>
                                         <th>{t("Date Of Creation")}</th>
@@ -346,6 +347,9 @@ export default function TradesManagment() {
                                             </td>
                                             <td className="status-cell">
                                                 {t(trade.status)}
+                                            </td>
+                                            <td className="amount-cell">
+                                                {trade.amount}
                                             </td>
                                             <td className="price-cell">
                                                 {trade.price ?? "-----------"}
