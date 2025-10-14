@@ -7,7 +7,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useTranslation } from "react-i18next";
 
-export default function AdminPanelHeader({ isWebsiteOwner = false, isMerchant = false }) {
+export default function AdminPanelHeader({ isWebsiteOwner = false }) {
 
     const router = useRouter();
 

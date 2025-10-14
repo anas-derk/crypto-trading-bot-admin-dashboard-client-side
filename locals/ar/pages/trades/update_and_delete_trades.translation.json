@@ -7,6 +7,8 @@
     "Please Enter Trade Id": "الرجاء إدخال معرّف التداول",
     "Side": "الاتجاه",
     "Please Select Side": "الرجاء إدخال الاتجاه",
+    "Buy": "شراء",
+    "Sell": "بيع",
     "Pair": "الزوج",
     "Please Select Pair": "الرجاء إدخال الزوج",
     "Status": "الحالة",

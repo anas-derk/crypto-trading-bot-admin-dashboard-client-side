@@ -248,7 +248,7 @@ export default function TradesManagment() {
                 <title>{t(process.env.WEBSITE_NAME)} {t("Admin Dashboard")} - {t("Trades Managment")}</title>
             </Head>
             {!isLoadingPage && !errorMsgOnLoadingThePage && <>
-                <AdminPanelHeader isWebsiteOwner={adminInfo.isWebsiteOwner} isMerchant={adminInfo.isMerchant} />
+                <AdminPanelHeader isWebsiteOwner={adminInfo.isWebsiteOwner} />
                 <div className="page-content d-flex justify-content-center align-items-center flex-column text-center pt-5 pb-5">
                     <div className="container-fluid">
                         <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">
@@ -333,25 +333,25 @@ export default function TradesManagment() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {allTradesInsideThePage.map((user, tradeIndex) => (
-                                        <tr key={user._id}>
+                                    {allTradesInsideThePage.map((trade, tradeIndex) => (
+                                        <tr key={trade._id}>
                                             <td className="id-cell">
-                                                {user._id}
+                                                {trade._id}
                                             </td>
                                             <td className="side-cell">
-                                                {user.side}
+                                                {trade.side}
                                             </td>
                                             <td className="pair-cell">
-                                                {user.pair}
+                                                {trade.pair}
                                             </td>
                                             <td className="status-cell">
-                                                {user.status}
+                                                {trade.status}
                                             </td>
                                             <td className="price-cell">
-                                                {user.price}
+                                                {trade.price}
                                             </td>
                                             <td className="date-of-creation-cell">
-                                                {getDateFormated(user.dateOfCreation)}
+                                                {getDateFormated(trade.dateOfCreation)}
                                             </td>
                                             <td className="update-cell">
                                                 {selectedTradeIndex !== tradeIndex && <>

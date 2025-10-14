@@ -129,7 +129,7 @@ export default function AdminLogin() {
     return (
         <div className="admin-login d-flex flex-column justify-content-center">
             <Head>
-                <title>{process.env.storeName} {t("Admin Dashboard")} - {t("Login")}</title>
+                <title>{t(process.env.WEBSITE_NAME)} {t("Admin Dashboard")} - {t("Login")}</title>
             </Head>
             {!isLoadingPage && !errorMsgOnLoadingThePage && <div className="page-content text-center p-4">
                 <div className="container p-4">
