@@ -2,5 +2,8 @@
     "Login": "تسجيل الدخول",
     "Blocking Date": "تاريخ الحظر",
     "Blocking Reason": "سبب الحظر",
-    "Forget Password": "نسيت كلمة المرور"
+    "Forget Password": "نسيت كلمة المرور",
+    "Email": "البريد الالكتروني",
+    "Please Enter Email": "الرجاء إدخال البريد الالكتروني",
+    "Please Enter Password": "الرجاء إدخال كلمة السر"
 }

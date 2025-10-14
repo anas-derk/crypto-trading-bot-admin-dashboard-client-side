@@ -1,0 +1,21 @@
+{
+    "Trades Managment": "إدارة التداولات",
+    "In Your Trades Managment Page": "في صفحة إدارة التداولات الخاصة بك",
+    "Trade Id": "معرّف التداول",
+    "Date Of Creation": "تاريخ الإنشاء",
+    "Sorry, Can't Find Any Trades": "عذراً ، لا يوجد أي تداولات",
+    "Please Enter Trade Id": "الرجاء إدخال معرّف التداول",
+    "Side": "الاتجاه",
+    "Please Select Side": "الرجاء إدخال الاتجاه",
+    "Pair": "الزوج",
+    "Please Select Pair": "الرجاء إدخال الزوج",
+    "Status": "الحالة",
+    "Please Select Status": "الرجاء إدخال الحالة",
+    "Pending": "الانتظار",
+    "Completed": "الاكتمال",
+    "Failed": "الفشل",
+    "Yes": "نعم",
+    "No": "لا",
+    "From": "من",
+    "To": "إلى"
+}

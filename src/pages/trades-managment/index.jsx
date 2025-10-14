@@ -260,7 +260,7 @@ export default function TradesManagment() {
                             <hr />
                             <div className="row mb-4">
                                 <div className="col-md-6">
-                                    <h6 className="me-2 fw-bold text-center">{t("Trade Id")}</h6>
+                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Trade Id")}</h6>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -268,40 +268,40 @@ export default function TradesManagment() {
                                         onChange={(e) => setFilters({ ...filters, _id: e.target.value.trim() })}
                                     />
                                 </div>
-                                <div className="col-md-4 mt-4">
-                                    <h6 className="me-2 fw-bold text-center">{t("Side")}</h6>
+                                <div className="col-md-4">
+                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Side")}</h6>
                                     <select
                                         className="select-trade-side form-select"
                                         onChange={(e) => setFilters({ ...filters, side: e.target.value })}
                                     >
-                                        <option value="" hidden>{t("Please Select Trade Side")}</option>
+                                        <option value="" hidden>{t("Please Select Side")}</option>
                                         <option value="">{t("All")}</option>
                                         <option value="buy">{t("Buy")}</option>
                                         <option value="sell">{t("Sell")}</option>
                                     </select>
                                 </div>
                                 <div className="col-md-4 mt-4">
-                                    <h6 className="me-2 fw-bold text-center">{t("Pair")}</h6>
+                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Pair")}</h6>
                                     <select
                                         className="select-trade-pair form-select"
                                         onChange={(e) => setFilters({ ...filters, pair: e.target.value })}
                                     >
-                                        <option value="" hidden>{t("Please Select Trade Pair")}</option>
+                                        <option value="" hidden>{t("Please Select Pair")}</option>
                                         <option value="">{t("All")}</option>
                                         <option value="BTC/USDT">{t("BTC/USDT")}</option>
                                         <option value="ETH/USDT">{t("ETH/USDT")}</option>
                                     </select>
                                 </div>
                                 <div className="col-md-4 mt-4">
-                                    <h6 className="me-2 fw-bold text-center">{t("Status")}</h6>
+                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Status")}</h6>
                                     <select
                                         className="select-trade-status form-select"
                                         onChange={(e) => setFilters({ ...filters, status: e.target.value })}
                                     >
-                                        <option value="" hidden>{t("Please Select Trade Status")}</option>
+                                        <option value="" hidden>{t("Please Select Status")}</option>
                                         <option value="">{t("All")}</option>
                                         <option value="pending">{t("Pending")}</option>
-                                        <option value="filled">{t("Filled")}</option>
+                                        <option value="completed">{t("Completed")}</option>
                                         <option value="failed">{t("Failed")}</option>
                                     </select>
                                 </div>
