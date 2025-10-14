@@ -213,7 +213,7 @@ export default function TradesManagment() {
                 let successTimeout = setTimeout(async () => {
                     setSuccessMsg("");
                     setSelectedTradeIndex(-1);
-                    setAllTradesInsideThePage(allTradesInsideThePage.filter((user, index) => index !== tradeIndex));
+                    setAllTradesInsideThePage(allTradesInsideThePage.filter((_, index) => index !== tradeIndex));
                     clearTimeout(successTimeout);
                 }, 1500);
             } else {
@@ -301,7 +301,7 @@ export default function TradesManagment() {
                                         <option value="" hidden>{t("Please Select Status")}</option>
                                         <option value="">{t("All")}</option>
                                         <option value="pending">{t("Pending")}</option>
-                                        <option value="completed">{t("Completed")}</option>
+                                        <option value="executed">{t("Executed")}</option>
                                         <option value="failed">{t("Failed")}</option>
                                     </select>
                                 </div>
@@ -324,11 +324,11 @@ export default function TradesManagment() {
                                 <thead>
                                     <tr>
                                         <th>{t("Id")}</th>
-                                        <th>{t("Email")}</th>
-                                        <th>{t("Full Name")}</th>
+                                        <th>{t("Side")}</th>
+                                        <th>{t("Pair")}</th>
+                                        <th>{t("Amount")}</th>
+                                        <th>{t("Price")}</th>
                                         <th>{t("Date Of Creation")}</th>
-                                        <th>{t("Regiteration Method")}</th>
-                                        <th>{t("Regiteration Agent")}</th>
                                         <th>{t("Processes")}</th>
                                     </tr>
                                 </thead>
@@ -339,19 +339,19 @@ export default function TradesManagment() {
                                                 {trade._id}
                                             </td>
                                             <td className="side-cell">
-                                                {trade.side}
+                                                {trade.side ? t(trade.side) : "-----------"}
                                             </td>
                                             <td className="pair-cell">
                                                 {trade.pair}
                                             </td>
                                             <td className="status-cell">
-                                                {trade.status}
+                                                {t(trade.status)}
                                             </td>
                                             <td className="price-cell">
-                                                {trade.price}
+                                                {trade.price ?? "-----------"}
                                             </td>
                                             <td className="date-of-creation-cell">
-                                                {getDateFormated(trade.dateOfCreation)}
+                                                {getDateFormated(trade.createdAt)}
                                             </td>
                                             <td className="update-cell">
                                                 {selectedTradeIndex !== tradeIndex && <>

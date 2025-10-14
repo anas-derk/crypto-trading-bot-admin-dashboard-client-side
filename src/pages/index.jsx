@@ -7,6 +7,9 @@ import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import AdminPanelHeader from "@/components/AdminPanelHeader";
 import { getAdminInfo, handleSelectUserLanguage } from "../../public/global_functions/popular";
 import { useTranslation } from "react-i18next";
+import FormFieldErrorBox from "@/components/FormFieldErrorBox";
+import axios from "axios";
+import { inputValuesValidation } from "../../public/global_functions/validations";
 
 export default function Home() {
 
@@ -15,6 +18,18 @@ export default function Home() {
   const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
   const [adminInfo, setAdminInfo] = useState({});
+
+  const [amount, setAmount] = useState("");
+
+  const [pair, setPair] = useState("");
+
+  const [waitMsg, setWaitMsg] = useState("");
+
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const [successMsg, setSuccessMsg] = useState("");
+
+  const [formValidationErrors, setFormValidationErrors] = useState({});
 
   const router = useRouter();
 
@@ -51,6 +66,74 @@ export default function Home() {
     } else router.replace("/login");
   }, []);
 
+  const createOrder = async (e) => {
+    try {
+      e.preventDefault();
+      setFormValidationErrors({});
+      const errorsObject = inputValuesValidation([
+        {
+          name: "amount",
+          value: amount,
+          rules: {
+            isRequired: {
+              msg: "Sorry, This Field Can't Be Empty !!",
+            },
+          },
+        },
+        {
+          name: "pair",
+          value: pair,
+          rules: {
+            isRequired: {
+              msg: "Sorry, This Field Can't Be Empty !!",
+            },
+          },
+        },
+      ]);
+      setFormValidationErrors(errorsObject);
+      if (Object.keys(errorsObject).length == 0) {
+        setWaitMsg("Please Wait");
+        const result = (await axios.post(`${process.env.BASE_API_URL}/trades/create-order?language=${process.env.defaultLanguage}`, {
+          amount,
+          pair
+        }, {
+          headers: {
+            Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage),
+          }
+        })).data;
+        setWaitMsg("");
+        if (!result.error) {
+          setSuccessMsg(result.msg);
+          let successTimeout = setTimeout(async () => {
+            setSuccessMsg("");
+            clearTimeout(successTimeout);
+          }, 1500);
+        } else {
+          setErrorMsg(result.msg);
+          let errorTimeout = setTimeout(() => {
+            setErrorMsg("");
+            clearTimeout(errorTimeout);
+          }, 1500);
+        }
+      }
+    }
+    catch (err) {
+      if (err?.response?.status === 401) {
+        // localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+        // await router.replace("/login");
+        setWaitMsg("");
+      }
+      else {
+        setWaitMsg("");
+        setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Repeate The Process !!");
+        let errorTimeout = setTimeout(() => {
+          setErrorMsg("");
+          clearTimeout(errorTimeout);
+        }, 1500);
+      }
+    }
+  }
+
   return (
     <div className="main admin-dashboard">
       <Head>
@@ -58,11 +141,58 @@ export default function Home() {
       </Head>
       {!isLoadingPage && !errorMsgOnLoadingThePage && <>
         <AdminPanelHeader isWebsiteOwner={adminInfo.isWebsiteOwner} isMerchant={adminInfo.isMerchant} />
-        <div className="page-content d-flex justify-content-center align-items-center">
-          <h1 className="fw-bold w-fit pb-2 text-center">
+        <div className="page-content d-flex justify-content-center align-items-center flex-column">
+          <h1 className="fw-bold w-fit pb-2 text-centerm mb-5">
             <PiHandWavingThin className="me-2" />
             {t("Hi, Mr")} {`${adminInfo.fullName}`} {t("In Your Admin Dashboard Main Page")}
           </h1>
+          <form className="create-order-form w-50" onSubmit={createOrder}>
+            <div className="amount-field-box">
+              <input
+                type="number"
+                placeholder={t("Please Enter Amount")}
+                className={`form-control p-3 border-2 ${formValidationErrors["amount"] ? "border-danger mb-2" : "mb-5"}`}
+                onChange={(e) => setAmount(e.target.valueAsNumber)}
+              />
+            </div>
+            {formValidationErrors["amount"] && <FormFieldErrorBox errorMsg={t(formValidationErrors["amount"])} />}
+            <div className={`select-pair-field-box ${formValidationErrors["pair"] ? "border-danger mb-2" : "mb-5"}`}>
+              <select
+                className="select-trade-pair form-select"
+                onChange={(e) => setPair(e.target.value)}
+              >
+                <option value="" hidden>{t("Please Select Pair")}</option>
+                <option value="">{t("All")}</option>
+                <option value="BTC/USDT">{t("BTC/USDT")}</option>
+                <option value="ETH/USDT">{t("ETH/USDT")}</option>
+              </select>
+            </div>
+            {formValidationErrors["pair"] && <FormFieldErrorBox errorMsg={t(formValidationErrors["pair"])} />}
+            {!waitMsg && !successMsg && !errorMsg && <button
+              type="submit"
+              className="btn btn-success w-50 d-block mx-auto p-2 global-button"
+            >
+              {t("Create Order")}
+            </button>}
+            {waitMsg && <button
+              className="btn btn-danger w-50 d-block mx-auto p-2 global-button"
+              disabled
+            >
+              {t(waitMsg)}
+            </button>}
+            {errorMsg && <button
+              className="btn btn-danger w-50 d-block mx-auto p-2 global-button"
+              disabled
+            >
+              {t(errorMsg)}
+            </button>}
+            {successMsg && <button
+              className="btn btn-success w-75 d-block mx-auto p-2 global-button"
+              disabled
+            >
+              {t(successMsg)}
+            </button>}
+          </form>
         </div>
       </>}
       {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
