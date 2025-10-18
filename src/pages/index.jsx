@@ -19,9 +19,11 @@ export default function Home() {
 
   const [adminInfo, setAdminInfo] = useState({});
 
-  const [amount, setAmount] = useState("");
-
-  const [pair, setPair] = useState("");
+  const [tradeInfo, setTradeInfo] = useState({
+    amount: "",
+    pair: "",
+    timeframe: "",
+  })
 
   const [waitMsg, setWaitMsg] = useState("");
 
@@ -34,6 +36,10 @@ export default function Home() {
   const router = useRouter();
 
   const { t, i18n } = useTranslation();
+
+  const pairs = ["BTC/USDT", "ETH/USDT"];
+
+  const timeframes = ["1m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M"];
 
   useEffect(() => {
     const userLanguage = localStorage.getItem(process.env.adminDashboardlanguageFieldNameInLocalStorage);
@@ -73,7 +79,7 @@ export default function Home() {
       const errorsObject = inputValuesValidation([
         {
           name: "amount",
-          value: amount,
+          value: tradeInfo.amount,
           rules: {
             isRequired: {
               msg: "Sorry, This Field Can't Be Empty !!",
@@ -82,7 +88,16 @@ export default function Home() {
         },
         {
           name: "pair",
-          value: pair,
+          value: tradeInfo.pair,
+          rules: {
+            isRequired: {
+              msg: "Sorry, This Field Can't Be Empty !!",
+            },
+          },
+        },
+        {
+          name: "timeframe",
+          value: tradeInfo.timeframe,
           rules: {
             isRequired: {
               msg: "Sorry, This Field Can't Be Empty !!",
@@ -93,10 +108,7 @@ export default function Home() {
       setFormValidationErrors(errorsObject);
       if (Object.keys(errorsObject).length == 0) {
         setWaitMsg("Please Wait");
-        const result = (await axios.post(`${process.env.BASE_API_URL}/trades/create-order?language=${process.env.defaultLanguage}`, {
-          amount,
-          pair
-        }, {
+        const result = (await axios.post(`${process.env.BASE_API_URL}/trades/create-order?language=${process.env.defaultLanguage}`, tradeInfo, {
           headers: {
             Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage),
           }
@@ -119,8 +131,8 @@ export default function Home() {
     }
     catch (err) {
       if (err?.response?.status === 401) {
-        // localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-        // await router.replace("/login");
+        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+        await router.replace("/login");
         setWaitMsg("");
       }
       else {
@@ -152,22 +164,31 @@ export default function Home() {
                 type="number"
                 placeholder={t("Please Enter Amount")}
                 className={`form-control p-3 border-2 ${formValidationErrors["amount"] ? "border-danger mb-2" : "mb-5"}`}
-                onChange={(e) => setAmount(e.target.valueAsNumber)}
+                onChange={(e) => setTradeInfo({ ...tradeInfo, amount: e.target.valueAsNumber })}
               />
             </div>
             {formValidationErrors["amount"] && <FormFieldErrorBox errorMsg={t(formValidationErrors["amount"])} />}
             <div className={`select-pair-field-box ${formValidationErrors["pair"] ? "border-danger mb-2" : "mb-5"}`}>
               <select
                 className="select-trade-pair form-select"
-                onChange={(e) => setPair(e.target.value)}
+                onChange={(e) => setTradeInfo({ ...tradeInfo, pair: e.target.value })}
               >
                 <option value="" hidden>{t("Please Select Pair")}</option>
                 <option value="">{t("All")}</option>
-                <option value="BTC/USDT">{t("BTC/USDT")}</option>
-                <option value="ETH/USDT">{t("ETH/USDT")}</option>
+                {pairs.map((pair) => <option key={pair} value={pair}>{pair}</option>)}
               </select>
             </div>
             {formValidationErrors["pair"] && <FormFieldErrorBox errorMsg={t(formValidationErrors["pair"])} />}
+            <div className={`select-time-frame-field-box ${formValidationErrors["timeframe"] ? "border-danger mb-2" : "mb-5"}`}>
+              <select
+                className="select-trade-timeframe form-select"
+                onChange={(e) => setTradeInfo({ ...tradeInfo, timeframe: e.target.value })}
+              >
+                <option value="" hidden>{t("Please Select Time Frame")}</option>
+                {timeframes.map((timeframe) => <option key={timeframe} value={timeframe}>{timeframe}</option>)}
+              </select>
+            </div>
+            {formValidationErrors["timeframe"] && <FormFieldErrorBox errorMsg={t(formValidationErrors["timeframe"])} />}
             {!waitMsg && !successMsg && !errorMsg && <button
               type="submit"
               className="btn btn-success w-50 d-block mx-auto p-2 global-button"

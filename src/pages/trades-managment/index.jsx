@@ -51,6 +51,14 @@ export default function TradesManagment() {
 
     const pageSize = 10;
 
+    const sides = ["buy", "sell"];
+
+    const pairs = ["BTC/USDT", "ETH/USDT"];
+
+    const timeframes = ["1m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M"];
+
+    const statuses = ["pending", "executed", "failed"];
+
     useEffect(() => {
         const userLanguage = localStorage.getItem(process.env.adminDashboardlanguageFieldNameInLocalStorage);
         handleSelectUserLanguage(userLanguage === "ar" || userLanguage === "en" || userLanguage === "tr" || userLanguage === "de" ? userLanguage : process.env.defaultLanguage, i18n.changeLanguage);
@@ -276,8 +284,7 @@ export default function TradesManagment() {
                                     >
                                         <option value="" hidden>{t("Please Select Side")}</option>
                                         <option value="">{t("All")}</option>
-                                        <option value="buy">{t("Buy")}</option>
-                                        <option value="sell">{t("Sell")}</option>
+                                        {sides.map((side) => <option key={side} value={side}>{side}</option>)}
                                     </select>
                                 </div>
                                 <div className="col-md-4 mt-4">
@@ -288,8 +295,18 @@ export default function TradesManagment() {
                                     >
                                         <option value="" hidden>{t("Please Select Pair")}</option>
                                         <option value="">{t("All")}</option>
-                                        <option value="BTC/USDT">{t("BTC/USDT")}</option>
-                                        <option value="ETH/USDT">{t("ETH/USDT")}</option>
+                                        {pairs.map((pair) => <option key={pair} value={pair}>{pair}</option>)}
+                                    </select>
+                                </div>
+                                <div className="col-md-4 mt-4">
+                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Status")}</h6>
+                                    <select
+                                        className="select-trade-time-frame form-select"
+                                        onChange={(e) => setFilters({ ...filters, timeframe: e.target.value })}
+                                    >
+                                        <option value="" hidden>{t("Please Select Time Frame")}</option>
+                                        <option value="">{t("All")}</option>
+                                        {timeframes.map((timeframe) => <option key={timeframe} value={timeframe}>{timeframe}</option>)}
                                     </select>
                                 </div>
                                 <div className="col-md-4 mt-4">
@@ -300,9 +317,7 @@ export default function TradesManagment() {
                                     >
                                         <option value="" hidden>{t("Please Select Status")}</option>
                                         <option value="">{t("All")}</option>
-                                        <option value="pending">{t("Pending")}</option>
-                                        <option value="executed">{t("Executed")}</option>
-                                        <option value="failed">{t("Failed")}</option>
+                                        {statuses.map((status) => <option key={status} value={status}>{status}</option>)}
                                     </select>
                                 </div>
                             </div>
@@ -326,6 +341,7 @@ export default function TradesManagment() {
                                         <th>{t("Id")}</th>
                                         <th>{t("Side")}</th>
                                         <th>{t("Pair")}</th>
+                                        <th>{t("Time Frame")}</th>
                                         <th>{t("Status")}</th>
                                         <th>{t("Amount")}</th>
                                         <th>{t("Price")}</th>
@@ -344,6 +360,9 @@ export default function TradesManagment() {
                                             </td>
                                             <td className="pair-cell">
                                                 {trade.pair}
+                                            </td>
+                                            <td className="time-frame-cell">
+                                                {trade.timeframe}
                                             </td>
                                             <td className="status-cell">
                                                 {t(trade.status)}
