@@ -40,7 +40,8 @@ export default function TradesManagment() {
 
     const [filters, setFilters] = useState({
         _id: "",
-        side: "",
+        startSide: "",
+        endSide: "",
         pair: "",
         status: "",
     });
@@ -279,12 +280,23 @@ export default function TradesManagment() {
                                 <div className="col-md-4">
                                     <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Side")}</h6>
                                     <select
-                                        className="select-trade-side form-select"
-                                        onChange={(e) => setFilters({ ...filters, side: e.target.value })}
+                                        className="select-trade-start-side form-select"
+                                        onChange={(e) => setFilters({ ...filters, startSide: e.target.value })}
                                     >
-                                        <option value="" hidden>{t("Please Select Side")}</option>
+                                        <option value="" hidden>{t("Please Select The Trade Start Side")}</option>
                                         <option value="">{t("All")}</option>
-                                        {sides.map((side) => <option key={side} value={side}>{side}</option>)}
+                                        {sides.map((side) => <option key={side} value={side}>{t(side)}</option>)}
+                                    </select>
+                                </div>
+                                <div className="col-md-4">
+                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Side")}</h6>
+                                    <select
+                                        className="select-trade-end-side form-select"
+                                        onChange={(e) => setFilters({ ...filters, endSide: e.target.value })}
+                                    >
+                                        <option value="" hidden>{t("Please Select The Trade End Side")}</option>
+                                        <option value="">{t("All")}</option>
+                                        {sides.map((side) => <option key={side} value={side}>{t(side)}</option>)}
                                     </select>
                                 </div>
                                 <div className="col-md-4 mt-4">
@@ -339,12 +351,14 @@ export default function TradesManagment() {
                                 <thead>
                                     <tr>
                                         <th>{t("Id")}</th>
-                                        <th>{t("Side")}</th>
+                                        <th>{t("Start Side")}</th>
+                                        <th>{t("End Side")}</th>
                                         <th>{t("Pair")}</th>
                                         <th>{t("Time Frame")}</th>
                                         <th>{t("Status")}</th>
                                         <th>{t("Amount")}</th>
-                                        <th>{t("Price")}</th>
+                                        <th>{t("Start Price")}</th>
+                                        <th>{t("End Price")}</th>
                                         <th>{t("Date Of Creation")}</th>
                                         <th>{t("Processes")}</th>
                                     </tr>
@@ -355,8 +369,11 @@ export default function TradesManagment() {
                                             <td className="id-cell">
                                                 {trade._id}
                                             </td>
-                                            <td className="side-cell">
-                                                {trade.side ? t(trade.side) : "-----------"}
+                                            <td className="start-side-cell">
+                                                {trade.startSide ? t(trade.startSide) : "-----------"}
+                                            </td>
+                                            <td className="end-side-cell">
+                                                {trade.endSide ? t(trade.endSide) : "-----------"}
                                             </td>
                                             <td className="pair-cell">
                                                 {trade.pair}
@@ -370,8 +387,11 @@ export default function TradesManagment() {
                                             <td className="amount-cell">
                                                 {trade.amount}
                                             </td>
-                                            <td className="price-cell">
-                                                {trade.price ?? "-----------"}
+                                            <td className="start-price-cell">
+                                                {trade.startPrice ?? "-----------"}
+                                            </td>
+                                            <td className="end-price-cell">
+                                                {trade.endPrice ?? "-----------"}
                                             </td>
                                             <td className="date-of-creation-cell">
                                                 {getDateFormated(trade.createdAt)}
