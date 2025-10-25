@@ -58,7 +58,7 @@ export default function TradesManagment() {
 
     const timeframes = ["1m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M"];
 
-    const statuses = ["pending", "executed", "failed"];
+    const statuses = ["pending", "open", "closed", "failed"];
 
     useEffect(() => {
         const userLanguage = localStorage.getItem(process.env.adminDashboardlanguageFieldNameInLocalStorage);
@@ -360,6 +360,8 @@ export default function TradesManagment() {
                                         <th>{t("Start Price")}</th>
                                         <th>{t("End Price")}</th>
                                         <th>{t("Date Of Creation")}</th>
+                                        <th>{t("Open Date")}</th>
+                                        <th>{t("Close Date")}</th>
                                         <th>{t("Processes")}</th>
                                     </tr>
                                 </thead>
@@ -395,6 +397,12 @@ export default function TradesManagment() {
                                             </td>
                                             <td className="date-of-creation-cell">
                                                 {getDateFormated(trade.createdAt)}
+                                            </td>
+                                            <td className="open-date-cell">
+                                                {trade.openAt ? getDateFormated(trade.openAt) : "-----------"}
+                                            </td>
+                                            <td className="close-date-cell">
+                                                {trade.closedAt ? getDateFormated(trade.closedAt) : "-----------"}
                                             </td>
                                             <td className="update-cell">
                                                 {selectedTradeIndex !== tradeIndex && <>
