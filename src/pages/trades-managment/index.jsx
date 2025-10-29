@@ -182,6 +182,11 @@ export default function TradesManagment() {
         }
     }
 
+    const getTradeResult = (startPrice, endPrice, startSide) => {
+        if ((startSide === "buy" && endPrice - startPrice > 0) || (startSide === "sell" && startPrice - endPrice > 0)) return "profit";
+        return "loss";
+    }
+
     const filterTrades = async (filters) => {
         try {
             setIsGetTrades(true);
@@ -362,6 +367,7 @@ export default function TradesManagment() {
                                         <th>{t("Date Of Creation")}</th>
                                         <th>{t("Open Date")}</th>
                                         <th>{t("Close Date")}</th>
+                                        <th>{t("Result")}</th>
                                         <th>{t("Processes")}</th>
                                     </tr>
                                 </thead>
@@ -403,6 +409,9 @@ export default function TradesManagment() {
                                             </td>
                                             <td className="close-date-cell">
                                                 {trade.closedAt ? getDateFormated(trade.closedAt) : "-----------"}
+                                            </td>
+                                            <td className="result-cell">
+                                                {trade.startPrice && trade.endPrice ? t(getTradeResult(trade.startPrice, trade.endPrice, trade.startSide)) : "-----------"}
                                             </td>
                                             <td className="update-cell">
                                                 {selectedTradeIndex !== tradeIndex && <>
