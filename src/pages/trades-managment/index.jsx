@@ -103,8 +103,10 @@ export default function TradesManagment() {
     const getFiltersAsQuery = (filters) => {
         let filteringString = "";
         if (filters._id) filteringString += `_id=${filters._id}&`;
-        if (filters.side) filteringString += `side=${filters.side}&`;
+        if (filters.startSide) filteringString += `startSide=${filters.startSide}&`;
+        if (filters.endSide) filteringString += `endSide=${filters.endSide}&`;
         if (filters.pair) filteringString += `pair=${filters.pair}&`;
+        if (filters.timeframe) filteringString += `timeframe=${filters.timeframe}&`;
         if (filters.status) filteringString += `status=${filters.status}&`;
         if (filteringString) filteringString = filteringString.substring(0, filteringString.length - 1);
         return filteringString;
@@ -283,7 +285,7 @@ export default function TradesManagment() {
                                     />
                                 </div>
                                 <div className="col-md-4">
-                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Side")}</h6>
+                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Start Side")}</h6>
                                     <select
                                         className="select-trade-start-side form-select"
                                         onChange={(e) => setFilters({ ...filters, startSide: e.target.value })}
@@ -294,7 +296,7 @@ export default function TradesManagment() {
                                     </select>
                                 </div>
                                 <div className="col-md-4">
-                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Side")}</h6>
+                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("End Side")}</h6>
                                     <select
                                         className="select-trade-end-side form-select"
                                         onChange={(e) => setFilters({ ...filters, endSide: e.target.value })}
@@ -316,7 +318,7 @@ export default function TradesManagment() {
                                     </select>
                                 </div>
                                 <div className="col-md-4 mt-4">
-                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Status")}</h6>
+                                    <h6 className={`${i18n.language !== "ar" ? "me-2" : "ms-2"} fw-bold text-center`}>{t("Time Frame")}</h6>
                                     <select
                                         className="select-trade-time-frame form-select"
                                         onChange={(e) => setFilters({ ...filters, timeframe: e.target.value })}
@@ -334,7 +336,7 @@ export default function TradesManagment() {
                                     >
                                         <option value="" hidden>{t("Please Select Status")}</option>
                                         <option value="">{t("All")}</option>
-                                        {statuses.map((status) => <option key={status} value={status}>{status}</option>)}
+                                        {statuses.map((status) => <option key={status} value={status}>{t(status)}</option>)}
                                     </select>
                                 </div>
                             </div>
