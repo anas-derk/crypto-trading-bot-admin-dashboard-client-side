@@ -161,10 +161,10 @@ export default function Home() {
           <form className="create-order-form w-50" onSubmit={createOrder}>
             <div className="amount-field-box">
               <input
-                type="number"
+                type="text"
                 placeholder={t("Please Enter Amount")}
                 className={`form-control p-3 border-2 ${formValidationErrors["amount"] ? "border-danger mb-2" : "mb-5"}`}
-                onChange={(e) => setTradeInfo({ ...tradeInfo, amount: e.target.valueAsNumber })}
+                onChange={(e) => setTradeInfo({ ...tradeInfo, amount: e.target.value })}
               />
             </div>
             {formValidationErrors["amount"] && <FormFieldErrorBox errorMsg={t(formValidationErrors["amount"])} />}
